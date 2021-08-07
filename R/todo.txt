@@ -1,0 +1,17 @@
+to do:
+
+1. Create item generating functions
+2. Import required packages
+  a. mirt
+  b.
+  c.
+  d.
+  e.
+  f.
+  g.
+  h.
+2. Create LD
+  a. Yens Q3 index (1984)
+  b. Pearsons X^2 test (chen and Thissen, 1997)
+  c. Likelihood-ratio test (G^2) (Chen and Thissen, 1997)
+  d. Threshold-shift score test (Glas and Falcon, 2003; Thissen, 2012 & 2014)
