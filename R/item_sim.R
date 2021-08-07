@@ -1,4 +1,10 @@
 
+# n = number of persons
+# p = number of items
+# a = IRT slope
+# b = IRT b
+# g = IRT c (guessing)
+# theta = theta values
 
 #data generating functions
 generate<-function(n,p,a,b,g,theta){
@@ -11,6 +17,15 @@ generate<-function(n,p,a,b,g,theta){
   }
   return(responses)
 }
+
+
+
+# n = number of persons
+# p = number of items
+# rho = LD strength
+# LD = 'first' only the first two items have LD
+# LD = 'cluster' the first n items have LD with each other
+
 
 #Previously called genitems
 item_sim<-function(n,p,rho,LD='first'){
