@@ -19,8 +19,11 @@ make_a_matrix <- function(N,sus){
       }
     }
   }
-  out = list(out1 = t(mat),out2 = pair_names)
+
+  out2 = cbind(as.data.frame(pair_names),t(mat[3:4,]))
+  out = list(out1 = t(mat[3:4,]),out2)
   return(out)
 }
 
 make_a_matrix(N = n, sus = LD)
+
