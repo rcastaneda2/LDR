@@ -1,29 +1,69 @@
-LD <- c(1,3)
-n <- 5
+n <- 15
+LD <- c(4,12,13)
 
-make_a_matrix <- function(N,sus){
+#N <- 15
+#sus <- c(4,12,13)
+
+make_a_vector <- function(N,sus,complex = F){
+  ##indices for counting
+  # i for pairs of all items
+  # j for pairs of sus items
+  # k for number of items
+
+  #Count pairs
   npairs = choose(N,2)
-  pair_names = rep(NA,length(npairs))
+  nsus = choose(length(sus),2)
 
-  mat <- matrix(0,4,npairs)
-  mat[1:2,] = combn(1:N,2)
-  mat[3,] = 1
+  #Make empty objects
+  all_pair_names = rep(NA,npairs)
+  sus_pair_names = rep(NA,nsus)
+  mod = rep(0,npairs)
 
-  for(j in 1:length(sus)){
+  #Vector listing all possible pairs
+  all_pairs = combn(1:N,2)
+  for(i in 1:npairs){all_pair_names[i] = paste(all_pairs[,i], collapse = ",")}
+
+  #Vector listing all suspicion pairs
+  sus_pairs = combn(sus,2)
+  for(j in 1:nsus){sus_pair_names[j] = paste(sus_pairs[,j], collapse = ",")}
+
+  #Mark the position of the suspicious pairs
+  for(j in 1:nsus){
     for(i in 1:npairs){
-      if (j == 1){
-        pair_names[i] = paste(mat[1:2,i], collapse = ",")
-      }
-      if (mat[1,i] == sus[j] | mat[2,i] == sus[j]){
-        mat[4,i] = 1
+      if (sus_pair_names[j] == all_pair_names[i]){
+        mod[i] = 1
       }
     }
   }
 
-  out2 = cbind(as.data.frame(pair_names),t(mat[3:4,]))
-  out = list(out1 = t(mat[3:4,]),out2)
-  return(out)
+  #option to view that sus pairs match with LD mod vector
+  mod_names = cbind(as.data.frame(all_pair_names),mod)
+
+  #if complex, make a matrix to pick off each item
+  if(complex == T){
+    mat = make_a_matrix(N,npairs,all_pairs)
+    mod = rbind(mat,mod)
+  }
+
+  #Output an object to feed into rma and one to view
+  out = list(mod = mod, mod_names = mod_names)
 }
 
-make_a_matrix(N = n, sus = LD)
+make_a_matrix <- function(N,npairs,all_pairs){
+  #given the number of items,pairs, and what the pairs are
+  #make a matrix to reflect the 'complex' structure
+  mat <- matrix(0,N-1,npairs)
 
+  #set up a moderator for each item
+  for(k in 1:(N-1)){
+    for(i in 1:npairs){
+      if (all_pairs[1,i] == k | all_pairs[2,i] == k){
+        mat[k,i] = 1
+      }
+    }
+  }
+
+  return(mat)
+}
+
+test <- make_a_vector(N = n, sus = LD,TRUE)
