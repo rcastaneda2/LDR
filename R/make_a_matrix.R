@@ -4,7 +4,7 @@ LD <- c(4,12,13)
 #N <- 15
 #sus <- c(4,12,13)
 
-make_a_vector <- function(N,sus,complex = F){
+make_a_vector <- function(N,sus,complex = F,pattern="triangle"){
   ##indices for counting
   # i for pairs of all items
   # j for pairs of sus items
@@ -15,13 +15,28 @@ make_a_vector <- function(N,sus,complex = F){
   nsus = choose(length(sus),2)
 
   #Make empty objects
-  all_pair_names = rep(NA,npairs)
   sus_pair_names = rep(NA,nsus)
   mod = rep(0,npairs)
 
-  #Vector listing all possible pairs
-  all_pairs = combn(1:N,2)
-  for(i in 1:npairs){all_pair_names[i] = paste(all_pairs[,i], collapse = ",")}
+  if(pattern=="triangle"){
+    #upper triangle pattern
+    all_pair_names <- NULL
+
+    for (col in 2:n){
+      for (row in 1:(col-1)){
+        new <- paste(c(row,col),collapse=",")
+        all_pair_names <- append(all_pair_names,new)
+      }
+    }
+
+  } else if(pattern == "list"){
+
+    all_pair_names = rep(NA,npairs)
+    #Vector listing all possible pairs
+    all_pairs = combn(1:N,2)
+    for(i in 1:npairs){all_pair_names[i] = paste(all_pairs[,i], collapse = ",")}
+  }
+
 
   #Vector listing all suspicion pairs
   sus_pairs = combn(sus,2)
@@ -66,4 +81,4 @@ make_a_matrix <- function(N,npairs,all_pairs){
   return(mat)
 }
 
-test <- make_a_vector(N = n, sus = LD,TRUE)
+test <- make_a_vector(N = n, sus = LD,complex=F, pattern='triangle')
