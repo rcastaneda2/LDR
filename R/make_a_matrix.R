@@ -1,4 +1,4 @@
-n <- 15
+n <- 25
 LD <- c(4,12,13)
 
 #N <- 15
@@ -22,7 +22,7 @@ make_a_vector <- function(N,sus,complex = F,pattern="triangle"){
     #upper triangle pattern
     all_pair_names <- NULL
 
-    for (col in 2:n){
+    for (col in 2:N){
       for (row in 1:(col-1)){
         new <- paste(c(row,col),collapse=",")
         all_pair_names <- append(all_pair_names,new)
